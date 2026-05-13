@@ -684,101 +684,88 @@
 
   </div>
 
-  <script>
-    function selectCheck(event, label) {
-      if (event.target.tagName === 'A') return; // allow link clicks
-      const cb = label.querySelector('input[type="checkbox"]');
-      cb.checked = !cb.checked;
-      label.classList.toggle('checked', cb.checked);
-    }
-
-document.getElementById('feedback-form').addEventListener('submit', async function(e) {
-  e.preventDefault();
-
-  // ── Consent-Pflichtprüfung ──────────────────────────────
-  const dsgvo = this.querySelector('input[name="consent-dsgvo"]');
-  const notiz = this.querySelector('input[name="consent-notiz"]');
-
-  if (!dsgvo.checked || !notiz.checked) {
-    const group = document.getElementById('consent-group');console.log('dsgvo:', dsgvo.checked, 'notiz:', notiz.checked);
-    group.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    group.style.outline = '2px solid var(--burgundy)';
-    group.style.borderRadius = '16px';
-    setTimeout(() => group.style.outline = '', 3000);
-    return;
+<script>
+  function selectCheck(event, label) {
+    if (event.target.tagName === 'A') return;
+    event.preventDefault();
+    const cb = label.querySelector('input[type="checkbox"]');
+    cb.checked = !cb.checked;
+    label.classList.toggle('checked', cb.checked);
   }
-  // ────────────────────────────────────────────────────────
 
-  const btn = this.querySelector('.btn-submit');
-  btn.textContent = 'Wird gesendet …';
-  // ... Rest unverändert
+  document.getElementById('feedback-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
 
-      const btn = this.querySelector('.btn-submit');
-      btn.textContent = 'Wird gesendet …';
-      btn.disabled = true;
+    // ── Consent-Pflichtprüfung ──────────────────────────────
+    const dsgvo = this.querySelector('input[name="consent-dsgvo"]');
+    const notiz = this.querySelector('input[name="consent-notiz"]');
 
-      // Formularfelder einsammeln
-      const fd = new FormData(this);
-      const get = (name) => fd.get(name) || '–';
+    if (!dsgvo.checked || !notiz.checked) {
+      const group = document.getElementById('consent-group');
+      group.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      group.style.outline = '2px solid var(--burgundy)';
+      group.style.borderRadius = '16px';
+      setTimeout(() => group.style.outline = '', 3000);
+      return;
+    }
+    // ────────────────────────────────────────────────────────
 
-      // Mehrfachauswahl (Checkboxen) zusammenfassen
-      const mehrWerte = fd.getAll('mehr');
+    const btn = this.querySelector('.btn-submit');
+    btn.textContent = 'Wird gesendet …';
+    btn.disabled = true;
 
-      const payload = {
-        kurs:            get('kurs') !== '–' ? get('kurs') : 'Kurs',
-        eingereicht_am:  new Date().toLocaleDateString('de-DE', { day:'2-digit', month:'2-digit', year:'numeric' }),
-        // Räumlichkeit
-        raum_wohl:       get('raum_wohl'),
-        raum_temp:       get('raum_temp'),
-        raum_platz:      get('raum_platz'),
-        raum_feedback:   get('raum_feedback'),
-        // Beleuchtung
-        licht_skala:     get('licht_skala'),
-        licht_wunsch:    get('licht_wunsch'),
-        licht_kommentar: get('licht_kommentar'),
-        // Körpergefühl
-        schmerz:         get('schmerz_ja'),
-        schmerz_detail:  get('beschwerde_detail'),
-        unangenehm:      '–',
-        modifikation:    get('modifikation'),
-        tempo:           get('tempo'),
-        // Veränderungen
-        mehr:            mehrWerte.length ? mehrWerte.join(', ') : '–',
-        weniger:         '–',
-        gesamt:          '–',
-        empfehlen:       get('empfehlen'),
-        // Über dich
-        erfahrung:       get('erfahrung'),
-        nachher:         get('nachher'),
-        alter:           get('alter'),
-        // Freier Raum
-        beruehrt:        get('beruehrt'),
-        wunschthemen:    get('wunschthemen'),
-        sonstiges:       get('sonstiges'),
-      };
+    const fd = new FormData(this);
+    const get = (name) => fd.get(name) || '–';
+    const mehrWerte = fd.getAll('mehr');
 
-      try {
-        const res = await fetch('/.netlify/functions/feedback-notification', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
+    const payload = {
+      kurs:            get('kurs') !== '–' ? get('kurs') : 'Kurs',
+      eingereicht_am:  new Date().toLocaleDateString('de-DE', { day:'2-digit', month:'2-digit', year:'numeric' }),
+      raum_wohl:       get('raum_wohl'),
+      raum_temp:       get('raum_temp'),
+      raum_platz:      get('raum_platz'),
+      raum_feedback:   get('raum_feedback'),
+      licht_skala:     get('licht_skala'),
+      licht_wunsch:    get('licht_wunsch'),
+      licht_kommentar: get('licht_kommentar'),
+      schmerz:         get('schmerz_ja'),
+      schmerz_detail:  get('beschwerde_detail'),
+      unangenehm:      '–',
+      modifikation:    get('modifikation'),
+      tempo:           get('tempo'),
+      mehr:            mehrWerte.length ? mehrWerte.join(', ') : '–',
+      weniger:         '–',
+      gesamt:          '–',
+      empfehlen:       get('empfehlen'),
+      erfahrung:       get('erfahrung'),
+      nachher:         get('nachher'),
+      alter:           get('alter'),
+      beruehrt:        get('beruehrt'),
+      wunschthemen:    get('wunschthemen'),
+      sonstiges:       get('sonstiges'),
+    };
 
-        if (!res.ok) throw new Error('Server error ' + res.status);
+    try {
+      const res = await fetch('/.netlify/functions/feedback-notification', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
 
-        // Erfolg → Danke-Seite zeigen
-        document.getElementById('feedback-form').style.display = 'none';
-        document.getElementById('thankyou').style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (!res.ok) throw new Error('Server error ' + res.status);
 
-      } catch (err) {
-        console.error(err);
-        btn.textContent = 'Fehler – bitte erneut versuchen';
-        btn.disabled = false;
-        btn.style.background = '#b94040';
-      }
-    });
-  </script>
+      document.getElementById('feedback-form').style.display = 'none';
+      document.getElementById('thankyou').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    } catch (err) {
+      console.error(err);
+      btn.textContent = 'Fehler – bitte erneut versuchen';
+      btn.disabled = false;
+      btn.style.background = '#b94040';
+    }
+  });
+</script>
 
 </body>
 </html>
