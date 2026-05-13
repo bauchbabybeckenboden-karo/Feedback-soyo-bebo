@@ -44,40 +44,33 @@ exports.handler = async (event) => {
     </p>
   </div>
   <div style="padding:36px;">
-    ${section('🏡 Räumlichkeit', [
-      row('Wohlfühlen', stars(data.raum_wohl)),
+
+    ${section('🫖 Räumlichkeit', [
+      row('Wohlfühlen im Raum', stars(data.raum_wohl)),
       row('Temperatur', data.raum_temp),
-      row('Platz auf Matte', data.raum_platz),
-      row('Verbesserungen', data.raum_feedback),
+      row('Platz auf der Matte', data.raum_platz),
+      row('Beleuchtung (1–5)', data.licht_skala),
     ].join(''))}
-    ${section('🕯️ Beleuchtung', [
-      row('Passend (1–5)', data.licht_skala),
-      row('Wunsch', data.licht_wunsch),
-      row('Kommentar', data.licht_kommentar),
-    ].join(''))}
+
     ${section('🌿 Körpergefühl & Übungen', [
-      row('Schmerzen', data.schmerz),
-      row('Details Schmerzen', data.schmerz_detail),
-      row('Unangenehme Übungen', data.unangenehm),
+      row('Schmerzen / Unbehagen', data.schmerz),
+      row('Details', data.schmerz_detail),
       row('Modifikationen', stars(data.modifikation)),
       row('Tempo', data.tempo),
+      row('Nächste Einheit', data.empfehlen),
     ].join(''))}
-    ${section('✨ Verbesserungen', [
-      row('Mehr wünschen', data.mehr),
-      row('Weniger / anders', data.weniger),
-      row('Gesamtbewertung', stars(data.gesamt)),
-      row('Weiterempfehlung', data.empfehlen),
-    ].join(''))}
+
     ${section('🌸 Über die Teilnehmerin', [
       row('Vorerfahrung', data.erfahrung),
       row('Nachgefühl', data.nachher),
       row('Altersgruppe', data.alter),
     ].join(''))}
+
     ${section('💬 Freier Raum', [
       row('Berührt / überrascht', data.beruehrt),
       row('Wunschthemen', data.wunschthemen),
-      row('Sonstiges', data.sonstiges),
     ].join(''))}
+
   </div>
   <div style="padding:20px 36px 28px;background:#f7f2ee;text-align:center;">
     <p style="margin:0;font-size:12px;color:#8a7060;font-style:italic;font-weight:300;">
