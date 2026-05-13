@@ -49,7 +49,9 @@ exports.handler = async (event) => {
       row('Wohlfühlen im Raum', stars(data.raum_wohl)),
       row('Temperatur', data.raum_temp),
       row('Platz auf der Matte', data.raum_platz),
+      row('Wünsche zum Raum', data.raum_wunsch),
       row('Beleuchtung (1–5)', data.licht_skala),
+      row('Beleuchtungswünsche', data.licht_wunsch),
     ].join(''))}
 
     ${section('🌿 Körpergefühl & Übungen', [
