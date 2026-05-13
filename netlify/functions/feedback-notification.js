@@ -69,7 +69,7 @@ exports.handler = async (event) => {
     ].join(''))}
 
     ${section('💬 Freier Raum', [
-      row('Berührt / überrascht', data.beruehrt),
+      row('Was hat besonders gefallen / geholfen', data.beruehrt),
       row('Wunschthemen', data.wunschthemen),
     ].join(''))}
 
