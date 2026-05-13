@@ -692,8 +692,26 @@
       label.classList.toggle('checked', cb.checked);
     }
 
-    document.getElementById('feedback-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
+document.getElementById('feedback-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  // ── Consent-Pflichtprüfung ──────────────────────────────
+  const dsgvo = this.querySelector('input[name="consent-dsgvo"]');
+  const notiz = this.querySelector('input[name="consent-notiz"]');
+
+  if (!dsgvo.checked || !notiz.checked) {
+    const group = document.getElementById('consent-group');
+    group.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    group.style.outline = '2px solid var(--burgundy)';
+    group.style.borderRadius = '16px';
+    setTimeout(() => group.style.outline = '', 3000);
+    return;
+  }
+  // ────────────────────────────────────────────────────────
+
+  const btn = this.querySelector('.btn-submit');
+  btn.textContent = 'Wird gesendet …';
+  // ... Rest unverändert
 
       const btn = this.querySelector('.btn-submit');
       btn.textContent = 'Wird gesendet …';
