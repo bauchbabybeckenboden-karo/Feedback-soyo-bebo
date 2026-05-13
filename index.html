@@ -460,7 +460,7 @@
         <div class="question">
           <label class="question-label">Wie passend war für dich die Beleuchtung?</label>
           <div class="scale-wrap">
-            <span class="scale-label-text">Zu hell / störend</span>
+            <span class="scale-label-text">1 Zu hell / störend - 5 genau richtig</span>
             <div class="scale-buttons">
               <input type="radio" name="licht_skala" id="ls1" value="1"><label for="ls1">1</label>
               <input type="radio" name="licht_skala" id="ls2" value="2"><label for="ls2">2</label>
@@ -651,14 +651,23 @@
           </div>
       </div>
 
-      <div class="check-group column" id="consent-group">
-        <label class="r-option" onclick="selectCheck(event, this)">
-          <input type="checkbox" name="consent" value="dsgvo" /><span class="c-dot"></span>Ich habe die <a href="https://www.bauch-baby-beckenboden.de/datenschutz/" target="_blank" style="color:var(--burgundy);text-decoration:underline;display:inline;">Datenschutzerklärung</a> gelesen und willige ein.
-        </label>
-        <label class="r-option" onclick="selectCheck(event, this)">
-          <input type="checkbox" name="consent" value="notiz" /><span class="c-dot"></span>Ich bin damit einverstanden, dass meine Angaben in anonymisierter Form für die Stundenplanung genutzt werden.
-        </label>
-      </div>
+     <div class="check-group column" id="consent-group">
+  <label class="r-option" onclick="selectCheck(event, this)">
+    <input type="checkbox" name="consent-dsgvo" value="dsgvo" required />
+    <span class="c-dot"></span>
+    Ich habe die 
+    <a href="https://www.bauch-baby-beckenboden.de/datenschutz/" target="_blank" 
+       style="color:var(--burgundy);text-decoration:underline;display:inline;">
+      Datenschutzerklärung
+    </a> 
+    gelesen und willige ein.
+  </label>
+  <label class="r-option" onclick="selectCheck(event, this)">
+    <input type="checkbox" name="consent-notiz" value="notiz" required />
+    <span class="c-dot"></span>
+    Ich bin damit einverstanden, dass meine Angaben in anonymisierter Form für die Stundenplanung genutzt werden.
+  </label>
+</div>
 
       <div class="submit-area">
         <p class="submit-note">Hier geht es weiter.</p>
