@@ -169,6 +169,10 @@
       margin-bottom: 10px;
       line-height: 1.5;
     }
+    .question-label .required {
+      color: var(--burgundy);
+      font-weight: 500;
+    }
     .question-hint {
       display: block;
       font-size: 12px;
@@ -195,6 +199,7 @@
     }
     textarea:focus { border-color: var(--burgundy); }
     textarea::placeholder { color: var(--text-muted); }
+    textarea:invalid { border-color: #d9534f; }
 
     /* ── STARS ── */
     .stars {
@@ -653,8 +658,9 @@
         </div>
 
         <div class="question">
-          <label class="question-label">Was hat dich im Kurs am meisten berührt oder überrascht?</label>
-          <textarea name="beruehrt" placeholder="Gerne auch eine kurze Szene oder ein Moment …"></textarea>
+          <label class="question-label">Was hat dir im Kurs am besten gefallen oder hat dir besonders geholfen? <span class="required">*</span></label>
+          <span class="question-hint">Gerne auch eine kurze Szene, ein Moment oder eine konkrete Übung …</span>
+          <textarea name="beruehrt" placeholder="Z. B. Die Entspannungsphase, eine bestimmte Übung, die Atmung, der Austausch mit der Gruppe …" required></textarea>
         </div>
 
         <div class="question">
@@ -720,7 +726,7 @@
       setTimeout(() => group.style.outline = '', 3000);
       return;
     }
-    // ───────────────────────────��────────────────────────────
+    // ─────────────────────────────────────────────────────────
 
     const btn = this.querySelector('.btn-submit');
     btn.textContent = 'Wird gesendet …';
