@@ -700,7 +700,7 @@ document.getElementById('feedback-form').addEventListener('submit', async functi
   const notiz = this.querySelector('input[name="consent-notiz"]');
 
   if (!dsgvo.checked || !notiz.checked) {
-    const group = document.getElementById('consent-group');
+    const group = document.getElementById('consent-group');console.log('dsgvo:', dsgvo.checked, 'notiz:', notiz.checked);
     group.scrollIntoView({ behavior: 'smooth', block: 'center' });
     group.style.outline = '2px solid var(--burgundy)';
     group.style.borderRadius = '16px';
