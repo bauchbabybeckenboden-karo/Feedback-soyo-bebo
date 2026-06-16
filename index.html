@@ -109,7 +109,7 @@
       font-size: 14px;
       line-height: 1.8;
       color: rgba(248,244,240,0.78);
-      max-width: 360px;
+      max-width: 380px;
       margin: 0 auto;
     }
 
@@ -181,6 +181,30 @@
       font-style: italic;
       line-height: 1.6;
     }
+
+    /* ── NAME FIELD ── */
+    .name-field {
+      background: #fff;
+      border-radius: 16px;
+      padding: 22px 26px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+    .name-field input[type="text"] {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: 'Jost', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--text);
+      background: var(--cream-light);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .name-field input[type="text"]:focus { border-color: var(--burgundy); }
+    .name-field input[type="text"]::placeholder { color: var(--text-muted); }
 
     textarea {
       width: 100%;
@@ -400,7 +424,7 @@
     <div class="hero-eyebrow">Deine Meinung zählt</div>
     <h1 class="hero-h1">Wie war der Kurs</h1>
     <span class="hero-h1-italic">für dich?</span>
-    <p class="hero-desc">Dein Feedback hilft mir, jeden Kurs weiterzuentwickeln. Herzlichen Dank!</p>
+    <p class="hero-desc">Der Kurs hatte nun ein wenig Zeit nachzuwirken – und ich freue mich sehr, wenn du dir ein paar Minuten nimmst, um mir für die vergangene Einheit oder den gesamten Kurs Feedback zu geben. Es hilft mir, jeden Kurs weiterzuentwickeln. Herzlichen Dank!</p>
   </div>
 
   <!-- CONTENT -->
@@ -411,6 +435,12 @@
     </div>
 
     <form id="feedback-form">
+
+      <!-- NAME (optional) -->
+      <div class="name-field">
+        <label class="question-label" for="teilnehmer-name">Dein Name <span class="question-hint" style="display:inline; font-style:normal; margin:0;">(optional)</span></label>
+        <input type="text" id="teilnehmer-name" name="teilnehmer_name" placeholder="Wie darf ich dich nennen?">
+      </div>
 
       <!-- 1. RÄUMLICHKEIT -->
       <div class="section">
@@ -734,9 +764,9 @@
 
     const fd = new FormData(this);
     const get = (name) => fd.get(name) || '–';
-    const mehrWerte = fd.getAll('mehr');
 
     const payload = {
+      teilnehmer_name: get('teilnehmer_name'),
       kurs:            get('kurs') !== '–' ? get('kurs') : 'Kurs',
       eingereicht_am:  new Date().toLocaleDateString('de-DE', { day:'2-digit', month:'2-digit', year:'numeric' }),
       raum_wohl:       get('raum_wohl'),
