@@ -365,6 +365,70 @@
     }
     .r-option.checked { border-color: var(--sage-dark); }
 
+    /* ── DROPDOWN ── */
+    .styled-select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-family: 'Jost', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--text);
+      background: var(--cream-light);
+      outline: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a7060' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .styled-select:focus { border-color: var(--burgundy); }
+
+    /* "eigenes" Checkbox mit Textfeld nebeneinander */
+    .option-item-with-input {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--cream-light);
+      transition: all 0.15s;
+    }
+    .option-item-with-input:focus-within { border-color: var(--burgundy); background: #fff; }
+    .option-item-with-input input[type="checkbox"] { display: none; }
+    .option-item-with-input .dot { border-radius: 4px; flex-shrink: 0; }
+    .option-item-with-input input[type="checkbox"]:checked ~ .dot {
+      background: var(--sage-dark);
+      border-color: var(--sage-dark);
+    }
+    .eigenes-text {
+      flex: 1;
+      border: none;
+      background: transparent;
+      font-family: 'Jost', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--text);
+      outline: none;
+      min-height: unset;
+      resize: none;
+      padding: 0;
+    }
+    .eigenes-text::placeholder { color: var(--text-muted); }
+
+    /* Abschlusshinweis */
+    .closing-note {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+
     /* ── SUBMIT ── */
     .submit-area { text-align: center; margin-top: 32px; }
     .submit-note {
@@ -699,6 +763,54 @@
         </div>
       </div>
 
+      <!-- 7. WUNSCH-INHALTE -->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-icon">📬</div>
+          <h2 class="section-title">Was darf dich erreichen?</h2>
+        </div>
+
+        <div class="question">
+          <label class="question-label">Möchtest du zu folgenden Themen vor Kursbeginn gerne Informationen erhalten?</label>
+          <span class="question-hint">Mehreres wählbar – ich schicke dir die Inhalte nach deiner Buchung zu.</span>
+          <div class="options" style="margin-top: 4px;">
+            <label class="option-item checkbox">
+              <input type="checkbox" name="info_themen" value="nervensystem">
+              <span class="dot"></span> Nervensystem
+            </label>
+            <label class="option-item checkbox">
+              <input type="checkbox" name="info_themen" value="somatische_arbeit">
+              <span class="dot"></span> Somatische Arbeit
+            </label>
+            <label class="option-item checkbox">
+              <input type="checkbox" name="info_themen" value="yoga_somatic">
+              <span class="dot"></span> Yoga im Somatic Yoga Kontext
+            </label>
+            <div class="option-item-with-input">
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;flex-shrink:0;">
+                <input type="checkbox" name="info_themen" value="eigenes" id="cb-eigenes">
+                <span class="dot" style="width:14px;height:14px;border-radius:4px;border:1.5px solid var(--border);background:#fff;flex-shrink:0;transition:all 0.15s;"></span>
+              </label>
+              <input class="eigenes-text" type="text" name="info_eigenes" placeholder="Eigenes Thema …"
+                onfocus="document.getElementById('cb-eigenes').checked=true; document.querySelector('label[for=cb-eigenes] .dot, #cb-eigenes ~ .dot');"
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="question">
+          <label class="question-label">In welcher Form möchtest du die Inhalte am liebsten erhalten?</label>
+          <select name="info_format" class="styled-select">
+            <option value="" disabled selected>Bitte wählen …</option>
+            <option value="video">Per Video abrufbar</option>
+            <option value="schriftlich">Schriftlich</option>
+            <option value="beides">Beides gerne</option>
+          </select>
+        </div>
+      </div>
+
+      <p class="closing-note">Nicht alle Wünsche können erfüllt werden –<br>aber ich gebe gerne mein Bestes. ♡</p>
+
       <div class="check-group" id="consent-group">
         <label class="r-option" onclick="selectCheck(event, this)">
           <input type="checkbox" name="consent-dsgvo" value="dsgvo" />
@@ -733,6 +845,17 @@
   </div>
 
 <script>
+  // "Eigenes Thema" – Checkbox automatisch setzen beim Tippen
+  const eigenesInput = document.querySelector('input[name="info_eigenes"]');
+  const eigenesCb    = document.getElementById('cb-eigenes');
+  const eigenesDot   = eigenesInput.closest('.option-item-with-input').querySelector('.dot');
+  eigenesInput.addEventListener('input', () => {
+    const hasText = eigenesInput.value.trim().length > 0;
+    eigenesCb.checked = hasText;
+    eigenesDot.style.background    = hasText ? 'var(--sage-dark)' : '#fff';
+    eigenesDot.style.borderColor   = hasText ? 'var(--sage-dark)' : 'var(--border)';
+  });
+
   function selectCheck(event, label) {
     if (event.target.tagName === 'A') return;
     event.preventDefault();
@@ -785,6 +908,9 @@
       alter:           get('alter'),
       beruehrt:        get('beruehrt'),
       wunschthemen:    get('wunschthemen'),
+      info_themen:     fd.getAll('info_themen').join(', ') || '–',
+      info_eigenes:    get('info_eigenes'),
+      info_format:     get('info_format'),
     };
 
     try {
