@@ -827,6 +827,11 @@
           <span class="c-dot"></span>
           Ich bin damit einverstanden, dass meine Angaben in anonymisierter Form für die Stundenplanung genutzt werden.*
         </label>
+        <label class="r-option" onclick="selectCheck(event, this)">
+          <input type="checkbox" name="consent-fragen" value="fragen" />
+          <span class="c-dot"></span>
+          Ich bin damit einverstanden, dass meine Fragen per E-Mail beantwortet werden.*
+        </label>
       </div>
 
       <div class="submit-area">
@@ -870,8 +875,9 @@
     // ── Consent-Pflichtprüfung ──────────────────────────────
     const dsgvo = this.querySelector('input[name="consent-dsgvo"]');
     const notiz = this.querySelector('input[name="consent-notiz"]');
+    const fragen = this.querySelector('input[name="consent-fragen"]');
 
-    if (!dsgvo.checked || !notiz.checked) {
+    if (!dsgvo.checked || !notiz.checked || !fragen.checked) {
       const group = document.getElementById('consent-group');
       group.scrollIntoView({ behavior: 'smooth', block: 'center' });
       group.style.outline = '2px solid var(--burgundy)';
